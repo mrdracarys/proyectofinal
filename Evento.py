@@ -13,6 +13,19 @@ class Evento(ABC):
         self.ciudad = ciudad
         self.estado = estado
 
+    def to_dict(self):
+        return {
+            'Nombre': self.nombre,
+            'Artistas': self.artistas,
+            'Fecha': self.fecha,
+            'Hora de Apertura': self.hora_apertura,
+            'Hora del Show': self.hora_show,
+            'Lugar': self.lugar,
+            'Dirección': self.direccion,
+            'Ciudad': self.ciudad,
+            'Estado': self.estado,
+            }
+
     @abstractmethod
     def calcular_utilidades(self, total_boletas_vendidas):
         pass

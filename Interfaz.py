@@ -1,12 +1,14 @@
 # main.py
 import streamlit as st
-import EventoBar
-import EventoTeatro
-import EventoFilantropico
+from Evento import Evento
+from EventoBar import EventoBar
+from EventoTeatro import EventoTeatro
+from EventoFilantropico import EventoFilantropico
 import Boleta
 import Comprador
-
+eventos = []
 def crear_evento_bar():
+    global eventos
     st.title('Crear Evento en Bar')
     nombre = st.text_input('Nombre del Evento')
     artistas = st.text_input('Artistas')
@@ -20,9 +22,11 @@ def crear_evento_bar():
 
     if st.button('Crear Evento'):
         evento = EventoBar(nombre, artistas, fecha, hora_apertura, hora_show, lugar, direccion, ciudad, estado)
+        eventos.append(evento)
         st.success('Evento creado exitosamente!')
 
 def crear_evento_teatro():
+    global eventos
     st.title('Crear Evento en Teatro')
     nombre = st.text_input('Nombre del Evento')
     artistas = st.text_input('Artistas')
@@ -37,9 +41,11 @@ def crear_evento_teatro():
 
     if st.button('Crear Evento'):
         evento = EventoTeatro(nombre, artistas, fecha, hora_apertura, hora_show, lugar, direccion, ciudad, estado, costo_alquiler)
+        eventos.append(evento)
         st.success('Evento creado exitosamente!')
 
 def crear_evento_filantropico():
+    global eventos
     st.title('Crear Evento Filantrópico')
     nombre = st.text_input('Nombre del Evento')
     artistas = st.text_input('Artistas')
@@ -55,8 +61,24 @@ def crear_evento_filantropico():
     if st.button('Crear Evento'):
         lista_patrocinadores = [{"nombre": p.split(',')[0].strip(), "valor": int(p.split(',')[1].strip())} for p in patrocinadores.split('\n')]
         evento = EventoFilantropico(nombre, artistas, fecha, hora_apertura, hora_show, lugar, direccion, ciudad, estado, lista_patrocinadores)
+        eventos.append(evento)
         st.success('Evento creado exitosamente!')
 
+def ver_eventos():
+    global eventos
+    st.title('Lista de Eventos Disponibles')
+    st.title('Lista de Eventos Disponibles')
+    if eventos:
+        # Convertir la lista de objetos a una lista de diccionarios
+        eventos_dict = [evento.to_dict() for evento in eventos]
+        st.table(eventos_dict)
+    else:
+        st.write('No hay eventos disponibles.')
+#gestion de boletas
+
+#Informe
+
+#panel
 def main():
     st.sidebar.title('Sistema de Gestión de Eventos de Comedia')
     opciones = ['Crear Evento en Bar', 'Crear Evento en Teatro', 'Crear Evento Filantrópico', 'Ver Eventos', 'Gestionar Boletas', 'Reportes', 'Dashboard']
@@ -68,4 +90,10 @@ def main():
         crear_evento_teatro()
     elif eleccion == 'Crear Evento Filantrópico':
         crear_evento_filantropico()
-    # Añade más
+    elif eleccion == 'Ver Eventos':
+        ver_eventos()
+
+
+
+
+main()

@@ -14,6 +14,8 @@ class Boleta:
         # Implementa la lógica para generar un código QR.
         pass
 
+
+
 # models/comprador.py
 class Comprador:
     def __init__(self, nombre, email, telefono):
